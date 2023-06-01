@@ -7,6 +7,8 @@ from components.Text import Text
 from components.ButtonText import ButtonText
 from components.ButtonIcon import ButtonIcon
 from components.Sprite import Sprite
+from components.DimensionLine import DimensionLine
+from components.FileHandler import FileHandler
 
 # Initialize Pygame (always on top)
 pg.init()
@@ -17,8 +19,9 @@ FONT = pg.font.Font("freesansbold.ttf", 32)
 
 fps = 60
 fpsClock = pg.time.Clock()
+pk = 2
+screen_width, screen_height = 1366, 768
 
-screen_width, screen_height = 640, 480
 screen = pg.display.set_mode((screen_width, screen_height))
 
 rec = Rectangle(2, 30, 40, 40)
@@ -28,7 +31,8 @@ but = ButtonText(screen_width // 2 + 100, screen_height // 2 + 100, "ehlo", FONT
                  text_color=(9, 1, 1), background_color=(0, 0, 255), border_radius=10)
 spr = Sprite(10, 19, os.path.join(".", "graphics", "button.png"), .1)
 ibut = ButtonIcon(100, 190, "./graphics/button.png", .1)
-
+lin = DimensionLine((100, 100), (100, 200), (1, 2, 1), 3)
+fil = FileHandler(100, 100, 100 ,100)
 # Game loop.
 while True:
     screen.fill(BACKGROUND_COLOR)
@@ -38,6 +42,7 @@ while True:
     but.draw(screen)
     spr.draw(screen)
     ibut.draw(screen)
+    lin.draw(screen)
     for event in pg.event.get():
         but.handle_mouse_event(event)
         ibut.handle_mouse_event(event)

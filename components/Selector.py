@@ -28,7 +28,7 @@ class Selector:
 
         self.__zero_pos = (pos_x, pos_y + y_pos_calibate)
 
-        self.sprite_zero_pos = Sprite(self.__zero_pos[0] - 25, self.__zero_pos[1]-102, "./graphics/XYaxis.png", .05)
+        self.sprite_target_topview = Sprite(self.__zero_pos[0] - 25, self.__zero_pos[1]-102, "./graphics/target_topview.png", .2628)
 
         self.__preview_components = {}
         self.__select_components = {}
@@ -58,18 +58,18 @@ class Selector:
                 self.__circles_interactable.append(circle2)
                 self.real_data[circle2] = tuple(real_pos)
 
-        triangle = self.makeTriangle(self.size, 42)
-        self.offsetTriangle(triangle, pos_x, pos_y + 100)
+        # triangle = self.makeTriangle(self.size, 42)
+        # self.offsetTriangle(triangle, pos_x, pos_y + 100)
 
-        self.line1 = Line(starting_pos=triangle.p1, ending_pos=triangle.p2, color=PRIMARY_COLOR_100, thickness=3)
-        self.line2 = Line(starting_pos=triangle.p2, ending_pos=triangle.p3, color=PRIMARY_COLOR_100, thickness=3)
-        self.line3 = Line(starting_pos=triangle.p3, ending_pos=triangle.p1, color=PRIMARY_COLOR_100, thickness=3)
+        # self.line1 = Line(starting_pos=triangle.p1, ending_pos=triangle.p2, color=PRIMARY_COLOR_100, thickness=3)
+        # self.line2 = Line(starting_pos=triangle.p2, ending_pos=triangle.p3, color=PRIMARY_COLOR_100, thickness=3)
+        # self.line3 = Line(starting_pos=triangle.p3, ending_pos=triangle.p1, color=PRIMARY_COLOR_100, thickness=3)
 
     def draw(self, screen):
-        self.line1.draw(screen)
-        self.line2.draw(screen)
-        self.line3.draw(screen)
-        self.sprite_zero_pos.draw(screen)
+        # self.line1.draw(screen)
+        # self.line2.draw(screen)
+        # self.line3.draw(screen)
+        self.sprite_target_topview.draw(screen)
 
         for circle in self.__circles_interactable:
             circle.draw(screen)
@@ -137,31 +137,31 @@ class Selector:
         if not previewing:
             self.__preview_components = {}
 
-    def makeTriangle(self, scale, internalAngle):
-        # define the points in a uint space
-        ia = (radians(internalAngle) * 2) - 1
-        p1 = (0, -1)
-        p2 = (cos(ia), sin(ia))
-        p3 = (cos(ia) * -1, sin(ia))
-
-        # scale the points
-        sp1 = [p1[0] * scale, p1[1] * scale]
-        sp2 = [p2[0] * scale, p2[1] * scale]
-        sp3 = [p3[0] * scale, p3[1] * scale]
-
-        return Triangle(sp1, sp2, sp3)
-
-    def offsetTriangle(self, triangle, offsetx, offsety):
-        triangle.p1[0] += offsetx;
-        triangle.p1[1] += offsety;
-        triangle.p2[0] += offsetx;
-        triangle.p2[1] += offsety;
-        triangle.p3[0] += offsetx;
-        triangle.p3[1] += offsety;
-
-
-class Triangle:
-    def __init__(self, p1, p2, p3):
-        self.p1 = p1
-        self.p2 = p2
-        self.p3 = p3
+#     def makeTriangle(self, scale, internalAngle):
+#         # define the points in a uint space
+#         ia = (radians(internalAngle) * 2) - 1
+#         p1 = (0, -1)
+#         p2 = (cos(ia), sin(ia))
+#         p3 = (cos(ia) * -1, sin(ia))
+#
+#         # scale the points
+#         sp1 = [p1[0] * scale, p1[1] * scale]
+#         sp2 = [p2[0] * scale, p2[1] * scale]
+#         sp3 = [p3[0] * scale, p3[1] * scale]
+#
+#         return Triangle(sp1, sp2, sp3)
+#
+#     def offsetTriangle(self, triangle, offsetx, offsety):
+#         triangle.p1[0] += offsetx;
+#         triangle.p1[1] += offsety;
+#         triangle.p2[0] += offsetx;
+#         triangle.p2[1] += offsety;
+#         triangle.p3[0] += offsetx;
+#         triangle.p3[1] += offsety;
+#
+#
+# class Triangle:
+#     def __init__(self, p1, p2, p3):
+#         self.p1 = p1
+#         self.p2 = p2
+#         self.p3 = p3

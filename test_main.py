@@ -51,7 +51,7 @@ class Sprite(pg.sprite.Sprite):
 
         self.image = pg.transform.scale(self.default_image, (self.width * scale, self.height * scale))
 
-class RigidBody(Sprite) : 
+class RigidBody(Sprite):
     def __init__(self, *args):
         super().__init__(*args)
 

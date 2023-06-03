@@ -16,8 +16,8 @@ class Ball:
         radian = (self.theta / 180) * math.pi
         Ux = self.initial_velocity * (math.cos(radian))
         Uy = self.initial_velocity * (math.sin(radian))
-        Sy = Uy * (time) + 0.5 * self.gravity * (time ** 2)
-        Sx = Ux * (time)
+        Sy = Uy * time + 0.5 * self.gravity * (time ** 2)
+        Sx = Ux * time
 
         self.__pos_x += Sx - self.last_pos_x
         self.last_pos_x = Sx

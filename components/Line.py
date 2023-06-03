@@ -10,4 +10,4 @@ class Line:
         self.thickness = thickness
 
     def draw(self, screen):
-        pg.draw.line(screen, self.color, self.starting_pos, self.ending_pos)
+        pg.draw.line(screen, self.color, self.starting_pos, self.ending_pos, self.thickness)

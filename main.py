@@ -10,7 +10,6 @@ from components.ButtonText import ButtonText
 from components.ButtonIcon import ButtonIcon
 from components.Sprite import Sprite
 from components.DimensionLine import DimensionLine
-from components.FileHandler import FileHandler
 from components.ProgressBar import ProgressBar
 from components.Selector import Selector
 from components.Calculator import Calculator
@@ -33,6 +32,7 @@ GRAY_COLOR = (205, 215, 228)
 WARNING_COLOR = (255, 0, 0)
 
 font_path = Path.cwd() / "fonts"
+graphic_path = Path.cwd() / "graphics"
 
 FONT_BOLD = pg.font.Font(font_path / "Prompt-Bold.ttf", 32)
 FONT_BOLD_BIG = pg.font.Font(font_path / "Prompt-Bold.ttf", 50)
@@ -123,8 +123,8 @@ def progess_page():
 
     dimension_top = DimensionLine((field_starting_pos[0], field_starting_pos[1] - 10),
                                   (field_ending_pos[0], field_ending_pos[1] - 10))
-    sprite_field_top = Sprite(field_starting_pos[0], field_starting_pos[1], "graphics/field_top.png", scaling=0.145)
-    sprite_robot_top = Sprite(field_ending_pos[0], field_starting_pos[1] + 3, "graphics/Topview.png", scaling=0.4)
+    sprite_field_top = Sprite(field_starting_pos[0], field_starting_pos[1], graphic_path / "field_top.png", scaling=0.145)
+    sprite_robot_top = Sprite(field_ending_pos[0], field_starting_pos[1] + 3, graphic_path / "Topview.png", scaling=0.4)
     text_robot_pos_x = Text(field_starting_pos[0] + (field_ending_pos[0] - field_starting_pos[0]) / 2 - 33,
                             field_starting_pos[1] - 45, f"{round(robot_pos[0], 1)} cm", FONT_SMALL, PRIMARY_COLOR_100)
 
@@ -140,7 +140,7 @@ def progess_page():
     button_next_3 = ButtonText(grid_x * 14 - 40, grid_y * 13 + 30, "END", FONT_BOLD, BACKGROUND_COLOR,
                                PRIMARY_COLOR_300,
                                background_color=PRIMARY_COLOR_100, padding_x=50, padding_y=10, border_radius=20)
-    icon_button_replay = ButtonIcon(screen_width/2-20, grid_y * 13 + 30, "graphics/gear.png", .15)
+    icon_button_replay = ButtonIcon(screen_width/2-20, grid_y * 13 + 30, graphic_path / "replay.png", .6)
 
     rec_3_1 = Rectangle(grid_x * 2, grid_y * 3 + 20, grid_x * 12, grid_x * 5, "white", border_radius=30)
     text_pwm_simulate = Text(grid_x * 2 + 45, grid_y * 3 + 40, f"PWM = {resulting_pwm} V", FONT_LIGHT_SMALL,
@@ -221,7 +221,7 @@ button_add_target = ButtonText(i_div_1_starting + i_div_1_width-grid_x+25, grid_
                                              border_radius=100)
 
 rect_i_2 = Rectangle(grid_x*2-16, grid_y * 1+20, grid_x*4+60, grid_x*4+30-20, "white", border_radius=30)
-sprite_topview_display = Sprite(grid_x*2+10, grid_y * 1+50-20, "graphics/bg_target_line.png", 0.3)
+sprite_topview_display = Sprite(grid_x*2+10, grid_y * 1+50-20, graphic_path / "bg_target_line.png", 0.3)
 input_boxes = [input_box_target_x, input_box_target_y]
 display_block_manager = DisplayBlockManager(100, grid_y*10+20, grid_x, grid_y)
 input_components = [text_i_warning, rect_i_1, text_i_1, text_i_2, text_i_3, text_i_4, text_i_5, button_add_target, rect_i_2, sprite_topview_display, button_next_i, display_block_manager]
@@ -229,7 +229,7 @@ input_components = [text_i_warning, rect_i_1, text_i_1, text_i_2, text_i_3, text
 ### Setup Page ###
 selector = Selector(grid_x * 6 - 100, grid_y * 9-20 + 30)
 
-icon_button_setting = ButtonIcon(grid_x-20, grid_y-10, "graphics/gear.png", .15)
+icon_button_setting = ButtonIcon(grid_x-20, grid_y-10, graphic_path / "gear.png", .15)
 target_pos = ("-", "-")
 button_next_1 = ButtonText(grid_x * 14 - 100, grid_y * 13 + 30, "next →", FONT_BOLD, BACKGROUND_COLOR, PRIMARY_COLOR_300,
                            background_color=PRIMARY_COLOR_100, padding_x=50, padding_y=10, border_radius=20)

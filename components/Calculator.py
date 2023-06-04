@@ -18,4 +18,4 @@ class Calculator:
         return rpm * 12 / 1666.67
 
     def calculate_robot_pos(self, target_pos):
-        return 40 + (target_pos[0]/10) - 10 , 0
+        return 40 + (target_pos[0]/10) - 10, 0

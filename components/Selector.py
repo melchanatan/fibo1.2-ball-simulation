@@ -39,6 +39,7 @@ class Selector:
 
         self.__preview_components = {}
         self.__select_components = {}
+        self.__select_circle = None
 
         self.real_data = {}
         self.render()
@@ -49,7 +50,6 @@ class Selector:
         with open(Path.cwd() / "target_pos.csv", "r", newline="") as file:
             csv_reader = csv.reader(file, delimiter=",")
             for index, row in enumerate(csv_reader):
-                print(f"row {row}")
                 if len(row) != 2:
                     print("invaild")
                     continue
@@ -60,17 +60,18 @@ class Selector:
                                     self.__circle_radius, self.__circle_radius, color=BACKGROUND_COLOR,
                                     border_radius=100)
                 self.__circles_display.append(circle1)
-
-                circle2 = Rectangle(
+                centers_pos = [
                     round(self.__zero_pos[0] + pos[0] - (self.__circle_radius + self.circle_border_thickness) / 2),
-                    round(self.__zero_pos[1] + 25 - pos[1] - (self.__circle_radius + self.circle_border_thickness) / 2),
+                    round(self.__zero_pos[1] + 25 - pos[1] - (self.__circle_radius + self.circle_border_thickness) / 2)
+                ]
+                color = PRIMARY_COLOR_100 if centers_pos == self.__select_circle else GRAY_COLOR
+                circle2 = Rectangle(
+                    centers_pos[0],
+                    centers_pos[1],
                     self.__circle_radius + self.circle_border_thickness, self.__circle_radius + self.circle_border_thickness,
-                    color=GRAY_COLOR, border_radius=100)
+                    color=color, border_radius=100)
                 self.__circles_interactable.append(circle2)
                 self.real_data[circle2] = tuple(real_pos)
-
-    # def get_placeholder(self):
-    #     return list(self.real_data.keys())[0]
 
     def draw(self, screen):
         self.sprite_target_topview.draw(screen)
@@ -135,6 +136,7 @@ class Selector:
                     for i in self.__circles_interactable:
                         i.color = GRAY_COLOR
                     circle.color = PRIMARY_COLOR_100
+                    self.__select_circle = [circle.pos_x, circle.pos_y]
                     return self.real_data[circle]
                 break
         else:

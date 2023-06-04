@@ -13,8 +13,8 @@ font_path = Path.cwd() / "fonts"
 
 BACKGROUND_COLOR = (239, 247, 255)
 PRIMARY_COLOR_100 = (82, 109, 130)
-RED_COLOR = (255, 0, 0)
-RED_COLOR_300 = (255, 223, 0)
+RED_COLOR = (252, 3, 44)
+RED_COLOR_300 = (199, 8, 52)
 SELECTED_COLOR = (26, 95, 122)
 GRAY_COLOR = (138, 127, 127)
 FONT_LIGHT_SMALL = pg.font.Font(font_path / "Prompt-Bold.ttf", 24)
@@ -44,11 +44,9 @@ class DisplayBlockManager:
         with open(Path.cwd() / "target_pos.csv", "r", newline="") as file:
             csv_reader = csv.reader(file, delimiter=",")
             for index, row in enumerate(csv_reader):
-                print(row)
                 if len(row) != 2:
                     print("invaild")
                 real_pos = [int(i) for i in row]
-                print(real_pos)
                 display_block = DisplayBlock(self.pos_x + self.grid_x * (index * 4.6), self.pos_y, self.grid_x,
                                              self.grid_y, real_pos[0], real_pos[1], index+1)
                 self.display_blocks.append(display_block)
@@ -71,6 +69,8 @@ class DisplayBlockManager:
                     for i in lines:
                         writer.writerow(i)
                 self.render_block()
+    def get_blocks_real_pos(self):
+        return [[i.displaying_x_pos, i.displaying_y_pos] for i in self.display_blocks]
 
 class DisplayBlock:
 

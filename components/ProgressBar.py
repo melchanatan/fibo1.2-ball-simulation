@@ -3,7 +3,7 @@ import pygame as pg
 distance = 160
 circle_size = 22
 
-COLOR_NAVY = pg.Color((33, 50, 94))
+COLOR_NAVY = pg.Color((84, 91, 119))
 COLOR_SKYBLUE = pg.Color((189, 216, 241))
 COLOR_GREEN = pg.Color((26, 95, 122))
 COLOR_SKYBLUE_BG = pg.Color((239, 247, 255))

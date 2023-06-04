@@ -140,7 +140,7 @@ def progess_page():
     button_next_3 = ButtonText(grid_x * 14 - 40, grid_y * 13 + 30, "END", FONT_BOLD, BACKGROUND_COLOR,
                                PRIMARY_COLOR_300,
                                background_color=PRIMARY_COLOR_100, padding_x=50, padding_y=10, border_radius=20)
-    icon_button_replay = ButtonIcon(screen_width/2-20, grid_y * 13 + 30, graphic_path / "replay.png", .6)
+    icon_button_replay = ButtonIcon(screen_width/2-20, grid_y * 13 + 30, graphic_path / "replay.png", .6, alternative_path=graphic_path / "replay_alt.png")
 
     rec_3_1 = Rectangle(grid_x * 2, grid_y * 3 + 20, grid_x * 12, grid_x * 5, "white", border_radius=30)
     text_pwm_simulate = Text(grid_x * 2 + 45, grid_y * 3 + 40, f"PWM = {resulting_pwm} V", FONT_LIGHT_SMALL,
@@ -168,7 +168,6 @@ def progess_page():
                 ball_showing = True
             for component in simulate_components:
                 component.draw(screen)
-            print(ball_showing)
             if ball_showing:
                 ball.draw(screen)
 
@@ -205,8 +204,8 @@ button_next_i = ButtonText(grid_x * 14 - 40, grid_y * 13 + 30, "Done", FONT_BOLD
 i_div_1_starting = grid_x*9-50
 i_div_1_width = grid_x*5+40
 
-input_box_target_x = TextInputBox(i_div_1_starting, grid_y*5-45, grid_x*3-30, FONT_BOLD, color=PRIMARY_COLOR_100)
-input_box_target_y = TextInputBox(i_div_1_starting, grid_y*7-20-45, grid_x*3-30, FONT_BOLD, color=PRIMARY_COLOR_100)
+input_box_target_x = TextInputBox(i_div_1_starting, grid_y*5-45, grid_x*3-30, FONT_BOLD, color=PRIMARY_COLOR_100, color_active=PRIMARY_COLOR_300)
+input_box_target_y = TextInputBox(i_div_1_starting, grid_y*7-20-45, grid_x*3-30, FONT_BOLD, color=PRIMARY_COLOR_100, color_active=PRIMARY_COLOR_300)
 rect_i_1 = Rectangle(i_div_1_starting - grid_x, grid_y * 4+30-45, i_div_1_width, grid_y*4-30, "white", border_radius=30)
 
 text_i_1 = Text(i_div_1_starting - 40, grid_y*5+5-45, f"X", FONT_BOLD, PRIMARY_COLOR_100)
@@ -229,7 +228,7 @@ input_components = [text_i_warning, rect_i_1, text_i_1, text_i_2, text_i_3, text
 ### Setup Page ###
 selector = Selector(grid_x * 6 - 100, grid_y * 9-20 + 30)
 
-icon_button_setting = ButtonIcon(grid_x-20, grid_y-10, graphic_path / "gear.png", .15)
+icon_button_setting = ButtonIcon(grid_x-20, grid_y-10, graphic_path / "gear.png", .15, alternative_path=graphic_path / "gear_alt.png")
 target_pos = ("-", "-")
 button_next_1 = ButtonText(grid_x * 14 - 100, grid_y * 13 + 30, "next →", FONT_BOLD, BACKGROUND_COLOR, PRIMARY_COLOR_300,
                            background_color=PRIMARY_COLOR_100, padding_x=50, padding_y=10, border_radius=20)
@@ -305,29 +304,35 @@ while True:
                 display_block_manager.render_block()
                 selector.render()
                 text_i_warning.set_content("")
-                time.sleep(.1)
 
             elif button_add_target.handle_mouse_event(event):
                 if not input_box_target_x.text or not input_box_target_y.text:
                     text_i_warning.set_content("Your input box is Empty.")
                     text_i_warning.shake()
-                elif not input_box_target_x.text.isdigit() or not input_box_target_y.text.isdigit():
+                elif (not input_box_target_x.text[1:].isdigit() or not input_box_target_y.text[1:].isdigit()) and (not input_box_target_x.text[0].isdigit() or not input_box_target_y.text[0].isdigit()):
                     text_i_warning.set_content("Invalid Number (mai dai amp pom rok =w=).")
                     text_i_warning.shake()
                 elif int(input_box_target_y.text) > 300 or int(input_box_target_y.text) < 65:
                     text_i_warning.set_content("Invalid Target Position.")
                     text_i_warning.shake()
                 elif int(input_box_target_x.text) > abs((int(input_box_target_y.text) - 300) / 2) or int(input_box_target_x.text) < -abs((int(input_box_target_y.text) - 300) / 2):
-                    print(abs((int(input_box_target_y.text) - 300) / 2))
                     text_i_warning.set_content("Invalid Target Position.")
                     text_i_warning.shake()
                 elif len(display_block_manager.display_blocks) >= 3:
                     text_i_warning.set_content("You can only have at most 3 Targets at once.")
                     text_i_warning.shake()
                 else:
-                    inputted_target_pos = [input_box_target_x.text, input_box_target_y.text]
-                    display_block_manager.add_block(inputted_target_pos)
-                    text_i_warning.set_content("")
+                    for i in display_block_manager.get_blocks_real_pos():
+                        if [int(input_box_target_x.text), int(input_box_target_y.text)] == i:
+                            text_i_warning.set_content("Identical Target Position!")
+                            text_i_warning.shake()
+                            break
+                    else:
+                        inputted_target_pos = [int(input_box_target_x.text), int(input_box_target_y.text)]
+                        display_block_manager.add_block(inputted_target_pos)
+                        text_i_warning.set_content("")
+                input_box_target_x.text = ""
+                input_box_target_y.text = ""
         elif current_step == "setup":
             if button_next_1.handle_mouse_event(event):
                 if target_pos != ("-", "-"):

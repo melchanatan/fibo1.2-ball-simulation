@@ -5,13 +5,19 @@ from components.Sprite import Sprite
 from components.Text import Text
 from math import radians, cos, sin, sqrt
 import csv
+from pathlib import Path
+
 
 pg.font.init()
 BACKGROUND_COLOR = (239, 247, 255)
 PRIMARY_COLOR_100 = (33, 50, 94)
 SELECTED_COLOR = (26, 95, 122)
 GRAY_COLOR = (138, 127, 127)
-FONT_LIGHT_SMALL = pg.font.Font("./fonts/Prompt-Regular.ttf", 18)
+
+font_path = Path.cwd() / "fonts"
+graphic_path = Path.cwd() / "graphics"
+
+FONT_LIGHT_SMALL = pg.font.Font(font_path / "Prompt-Regular.ttf", 18)
 
 class Selector:
 
@@ -27,18 +33,20 @@ class Selector:
 
         self.__zero_pos = (pos_x, pos_y + y_pos_calibrate)
 
-        sprite_target_topview = Sprite(pos_x-591.825/2, pos_y-512.46/2, "./graphics/target_topview.png", .235)
+        sprite_target_topview = Sprite(pos_x-591.825/2, pos_y-512.46/2, graphic_path / "target_topview.png", .235)
         self.sprite_target_topview = Sprite(pos_x-sprite_target_topview.width*.235/2, pos_y-sprite_target_topview.height*.235/2, "./graphics/target_topview.png", .235)
         # self.sprite_zero_pos = Sprite(self.__zero_pos[0] - 25, self.__zero_pos[1] - 102, "./graphics/XYaxis.png", .05)
 
         self.__preview_components = {}
+        self.__select_components = {}
+
         self.real_data = {}
         self.render()
 
     def render(self):
         self.__circles_interactable = []
         self.__circles_display = []
-        with open("target_pos.csv", "r", newline="") as file:
+        with open(Path.cwd() / "target_pos.csv", "r", newline="") as file:
             csv_reader = csv.reader(file, delimiter=",")
             for index, row in enumerate(csv_reader):
                 print(f"row {row}")
@@ -74,6 +82,13 @@ class Selector:
             circle.draw(screen)
 
         for item in self.__preview_components.values():
+            item.draw(screen)
+
+        for item in self.__select_components.values():
+            self.__select_components["center_point"].color = PRIMARY_COLOR_100
+            self.__select_components["center_line"].color = PRIMARY_COLOR_100
+            self.__select_components["number_text"].set_color(PRIMARY_COLOR_100)
+            self.__select_components["number_line"].color = PRIMARY_COLOR_100
             item.draw(screen)
 
     previewing = True
@@ -116,11 +131,11 @@ class Selector:
                     self.__preview_components["number_line"] = Line(line_end, (line_end[0] + number_line_length + 3, line_end[1]), color=PRIMARY_COLOR_100, thickness=3)
 
                 if event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
+                    self.__select_components = self.__preview_components
                     for i in self.__circles_interactable:
                         i.color = GRAY_COLOR
                     circle.color = PRIMARY_COLOR_100
                     return self.real_data[circle]
-
                 break
         else:
             previewing = False

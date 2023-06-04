@@ -6,17 +6,20 @@ from components.Text import Text
 from components.ButtonText import ButtonText
 from math import radians, cos, sin, sqrt
 import csv
+from pathlib import Path
 
 pg.font.init()
+font_path = Path.cwd() / "fonts"
+
 BACKGROUND_COLOR = (239, 247, 255)
 PRIMARY_COLOR_100 = (82, 109, 130)
 RED_COLOR = (255, 0, 0)
 RED_COLOR_300 = (255, 223, 0)
 SELECTED_COLOR = (26, 95, 122)
 GRAY_COLOR = (138, 127, 127)
-FONT_LIGHT_SMALL = pg.font.Font("fonts/Prompt-Bold.ttf", 24)
-FONT_BOLD = pg.font.Font("fonts/Prompt-Bold.ttf", 28)
-FONT_BOLD_BIG = pg.font.Font("fonts/Prompt-Bold.ttf", 50)
+FONT_LIGHT_SMALL = pg.font.Font(font_path / "Prompt-Bold.ttf", 24)
+FONT_BOLD = pg.font.Font(font_path / "Prompt-Bold.ttf", 28)
+FONT_BOLD_BIG = pg.font.Font(font_path / "Prompt-Bold.ttf", 50)
 
 
 class DisplayBlockManager:
@@ -31,14 +34,14 @@ class DisplayBlockManager:
         self.render_block()
 
     def add_block(self, target_pos):
-        with open("target_pos.csv", "a", newline="") as file:
+        with open(Path.cwd() / "target_pos.csv", "a", newline="") as file:
             writer = csv.writer(file)
             writer.writerow(target_pos)
         self.render_block()
 
     def render_block(self):
         self.display_blocks = []
-        with open("target_pos.csv", "r", newline="") as file:
+        with open(Path.cwd() / "target_pos.csv", "r", newline="") as file:
             csv_reader = csv.reader(file, delimiter=",")
             for index, row in enumerate(csv_reader):
                 print(row)
@@ -47,7 +50,7 @@ class DisplayBlockManager:
                 real_pos = [int(i) for i in row]
                 print(real_pos)
                 display_block = DisplayBlock(self.pos_x + self.grid_x * (index * 4.6), self.pos_y, self.grid_x,
-                                             self.grid_y, real_pos[0], real_pos[1], index)
+                                             self.grid_y, real_pos[0], real_pos[1], index+1)
                 self.display_blocks.append(display_block)
 
     def draw(self, screen):
@@ -58,7 +61,7 @@ class DisplayBlockManager:
         for block in self.display_blocks:
             lines = []
             if block.button_delete.handle_mouse_event(event):
-                with open("target_pos.csv", "r", newline="") as file:
+                with open(Path.cwd() / "target_pos.csv", "r", newline="") as file:
                     csv_reader = csv.reader(file, delimiter=",")
                     for row in enumerate(csv_reader):
                         if list(row[1]) != [str(block.displaying_x_pos), str(block.displaying_y_pos)]:

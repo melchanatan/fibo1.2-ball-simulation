@@ -9,20 +9,25 @@ class Text(Rectangle):
         self.font = font
         self.content = content
         self.text_color = text_color
+        self.padding_x = padding_x
+        self.padding_y = padding_y
+        self.pos_x = pos_x
+        self.pos_y = pos_y
+        self.border_radius = border_radius
 
         # Render Text
         self.text = font.render(content, True, text_color)
+        self.render()
 
+    def render(self):
         # Deal with Text Positioning
         self.__text_rect = self.text.get_rect()
-        self.__text_rect.topleft = (pos_x+padding_x//2, pos_y+padding_y//2)
+        self.__text_rect.topleft = (self.pos_x + self.padding_x // 2, self.pos_y + self.padding_y // 2)
 
         # Deal with Rectangle Positioning
-        self.text_width, text_height = font.size(content)
-        super().__init__(pos_x, pos_y, self.text_width+padding_x, text_height+padding_y, self.__background_color, border_radius=border_radius)
-
-    def set_color(self, new_color):
-        self.text = self.font.render(self.content, True, new_color)
+        self.text_width, text_height = self.font.size(self.content)
+        super().__init__(self.pos_x, self.pos_y, self.text_width + self.padding_x, text_height + self.padding_y, self.__background_color,
+                         border_radius=self.border_radius)
 
     def set_content(self, new_content):
         self.content = new_content

@@ -315,7 +315,7 @@ while True:
                 elif int(input_box_target_y.text) > 300 or int(input_box_target_y.text) < 65:
                     text_i_warning.set_content("Invalid Target Position.")
                     text_i_warning.shake()
-                elif int(input_box_target_x.text) > abs((int(input_box_target_y.text) - 300) / 2) or int(input_box_target_x.text) < -abs((int(input_box_target_y.text) - 300) / 2):
+                elif int(input_box_target_x.text) > abs((int(input_box_target_y.text) - 310) / 2) or int(input_box_target_x.text) < -abs((int(input_box_target_y.text) - 300) / 2):
                     text_i_warning.set_content("Invalid Target Position.")
                     text_i_warning.shake()
                 elif len(display_block_manager.display_blocks) >= 3:

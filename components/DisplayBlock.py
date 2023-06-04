@@ -69,6 +69,7 @@ class DisplayBlockManager:
                     for i in lines:
                         writer.writerow(i)
                 self.render_block()
+
     def get_blocks_real_pos(self):
         return [[i.displaying_x_pos, i.displaying_y_pos] for i in self.display_blocks]
 

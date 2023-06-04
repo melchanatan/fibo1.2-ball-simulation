@@ -71,13 +71,11 @@ def progess_page():
     calculator = Calculator(GRAVITY, INITIAL_THETA)
     robot_pos = calculator.calculate_robot_pos(target_pos)
     calculator.initial_pos_x = robot_pos[1]
-    print(wall_height)
     field = Field(grid_x * 2, grid_y * 4 - 30, wall_height, 0, target_pos[1]/10)
 
     initial_velocity = calculator.calculate_initial_velocity(field=field)
 
-    ball = Ball(grid_x * 4 - 13, grid_y * 9 + 20, 5, initial_velocity, theta=60)
-    print(initial_velocity)
+    ball = Ball(grid_x * 4 + 36, grid_y * 9 + 20, 5, initial_velocity, theta=60)
     robot_rpm = calculator.velocity_to_rpm(initial_velocity, ROBOT_CONSTANT)
     robot_volt_uses = [
         calculator.rpm_to_volt(robot_rpm, MOTOR_CONSTANT_1),
@@ -191,8 +189,6 @@ def progess_page():
                 if button_minus_playback_speed.handle_mouse_event(event):
                     pass
 
-            if event.type == pg.MOUSEBUTTONUP:
-                print(pg.mouse.get_pos())
             if event.type == pg.QUIT:
                 pg.quit()
                 sys.exit()
@@ -267,13 +263,7 @@ while True:
     screen.fill(BACKGROUND_COLOR)
     if current_step != "input":
         progress_bar.draw(screen, status=current_step)
-    if current_step == "input":
-        for component in input_components:
-            component.draw(screen)
-        for component in input_boxes:
-            component.draw(screen)
-
-    elif current_step == "setup":
+    if current_step == "setup":
         if rec_button_select.pos_x < wanted_rec_button_select_pos:
             rec_button_select.pos_x += ANIMATION_SPEED
             if rec_button_select.pos_x > wanted_rec_button_select_pos:
@@ -290,19 +280,25 @@ while True:
 
         for button in buttons_wall_height:
             button.draw(screen)
+    elif current_step == "input":
+        for component in input_components:
+            component.draw(screen)
+        for component in input_boxes:
+            component.draw(screen)
 
     # draw_grid()
+
     event_list = pg.event.get()
-    for component in input_boxes:
+    for component in input_boxes:  # input boxes event
         component.update(event_list)
 
     for event in event_list:
 
-        display_block_manager.handle_event(event)
         if current_step == "input":
+            display_block_manager.handle_event(event)
             if button_next_i.handle_mouse_event(event):
                 current_step = "setup"
-                print("hello")
+                display_block_manager.render_block()
                 selector.render()
                 time.sleep(.1)
 
@@ -310,33 +306,28 @@ while True:
                 if len(display_block_manager.display_blocks) < 3:
                     inputted_target_pos = [input_box_target_x.text, input_box_target_y.text]
                     display_block_manager.add_block(inputted_target_pos)
-        if current_step == "setup":
-            if icon_button_setting.handle_mouse_event(event):
+        elif current_step == "setup":
+            if button_next_1.handle_mouse_event(event) and target_pos != ("-", "-"):
+                current_step = "progress"
+                progess_page()
+            elif icon_button_setting.handle_mouse_event(event):
                 current_step = "input"
             elif button_wall_height_1.handle_mouse_event(event):
                 wall_height = 50
-                print(target_pos)
                 rec_button_select.width = grid_x * 2 - 10
                 wanted_rec_button_select_pos = rec_button_select_poss[0]
 
             elif button_wall_height_2.handle_mouse_event(event):
                 wall_height = 100
-                print(wall_height)
-                print(target_pos)
                 rec_button_select.width = grid_x * 2 + 2
                 wanted_rec_button_select_pos = rec_button_select_poss[1]
 
-            elif button_next_1.handle_mouse_event(event) and target_pos != ("-", "-"):
-                current_step = "progress"
-                progess_page()
             selector_event = selector.handle_mouse_event(event)
             if selector_event:
                 target_pos = selector_event
                 text_x_pos.set_content(f"X : {target_pos[0]} mm")
                 text_y_pos.set_content(f"Y : {target_pos[1]} mm")
 
-        if event.type == pg.MOUSEBUTTONUP:
-            print(pg.mouse.get_pos())
         if event.type == pg.QUIT:
             pg.quit()
             sys.exit()

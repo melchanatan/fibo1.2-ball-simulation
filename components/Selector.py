@@ -11,7 +11,7 @@ BACKGROUND_COLOR = (239, 247, 255)
 PRIMARY_COLOR_100 = (33, 50, 94)
 SELECTED_COLOR = (26, 95, 122)
 GRAY_COLOR = (138, 127, 127)
-FONT_LIGHT_SMALL = pg.font.Font("fonts/Prompt-Regular.ttf", 18)
+FONT_LIGHT_SMALL = pg.font.Font("./fonts/Prompt-Regular.ttf", 18)
 
 class Selector:
 
@@ -36,17 +36,16 @@ class Selector:
         self.render()
 
     def render(self):
+        self.__circles_interactable = []
+        self.__circles_display = []
         with open("target_pos.csv", "r", newline="") as file:
-            self.__circles_interactable = []
-            self.__circles_display = []
-            print("helo")
             csv_reader = csv.reader(file, delimiter=",")
             for index, row in enumerate(csv_reader):
+                print(f"row {row}")
                 if len(row) != 2:
                     print("invaild")
                     continue
                 real_pos = [int(i) for i in row]
-                print(real_pos)
                 pos = [round(int(i) / self.cm_px) for i in row]
                 circle1 = Rectangle(round(self.__zero_pos[0] + pos[0] - self.__circle_radius / 2),
                                     round(self.__zero_pos[1] + 25 - pos[1] - self.__circle_radius / 2),

@@ -9,8 +9,7 @@ class Calculator:
 
     def calculate_initial_velocity(self, field):
         radian = (self.initial_theta * 2 / 180) * math.pi
-        print(self.initial_pos_y+2+field.target/100+0.05)
-        return ((self.__gravity * (self.initial_pos_y+2+field.target/100+0.05)) / math.sin(radian)) ** (1 / 2)
+        return ((self.__gravity * (self.initial_pos_y+2+field.target/100+0.13125)) / math.sin(radian)) ** (1 / 2)
 
     def velocity_to_rpm(self, initial_velocity, robot_constant):
         return (1000 * initial_velocity) / math.pi
@@ -19,4 +18,4 @@ class Calculator:
         return rpm * 12 / 1666.67
 
     def calculate_robot_pos(self, target_pos):
-        return target_pos[0] + 4 - 1.5, 0
+        return 40 + (target_pos[0]/10) - 10 , 0

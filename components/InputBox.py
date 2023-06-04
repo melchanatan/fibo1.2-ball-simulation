@@ -20,7 +20,7 @@ class TextInputBox(pg.sprite.Sprite):
             self.image.fill(self.backcolor)
         self.image.blit(t_surf, (25, 3))
         pg.draw.rect(self.image, self.color, self.image.get_rect().inflate(-2, -2), 3, border_radius=30)
-        self.rect = self.image.get_rect(topleft = self.pos)
+        self.rect = self.image.get_rect(topleft=self.pos)
 
     def update(self, event_list):
         for event in event_list:
@@ -34,7 +34,8 @@ class TextInputBox(pg.sprite.Sprite):
                 elif event.key == pg.K_BACKSPACE:
                     self.text = self.text[:-1]
                 else:
-                    self.text += event.unicode
+                    if event.unicode.isnumeric() and len(self.text) < 3:
+                        self.text += event.unicode
                 self.render_text()
 
     def draw(self, screen):

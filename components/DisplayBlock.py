@@ -41,9 +41,11 @@ class DisplayBlockManager:
         with open("target_pos.csv", "r", newline="") as file:
             csv_reader = csv.reader(file, delimiter=",")
             for index, row in enumerate(csv_reader):
+                print(row)
                 if len(row) != 2:
                     print("invaild")
                 real_pos = [int(i) for i in row]
+                print(real_pos)
                 display_block = DisplayBlock(self.pos_x + self.grid_x * (index * 4.6), self.pos_y, self.grid_x,
                                              self.grid_y, real_pos[0], real_pos[1], index)
                 self.display_blocks.append(display_block)

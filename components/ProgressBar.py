@@ -45,6 +45,14 @@ class ProgressBar:
             self.color_num3 = pg.Color('white')
             self.num = "✔"
             self.num2 = "✔"
+        else:
+            self.color1 = COLOR_GREEN
+            self.color2 = COLOR_GREEN
+            self.color3 = COLOR_NAVY
+            self.color_num2 = pg.Color('white')
+            self.color_num3 = pg.Color('white')
+            self.num = "✔"
+            self.num2 = "✔"
 
         pg.draw.circle(screen,self.color1,(self.starting_x-distance, self.starting_y), circle_size)
         pg.draw.circle(screen,self.color2,(self.starting_x, self.starting_y),circle_size)

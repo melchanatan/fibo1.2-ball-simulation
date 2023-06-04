@@ -8,6 +8,7 @@ class Text(Rectangle):
         self.__background_color = background_color
         self.font = font
         self.content = content
+        self.text_color = text_color
 
         # Render Text
         self.text = font.render(content, True, text_color)
@@ -22,6 +23,10 @@ class Text(Rectangle):
 
     def set_color(self, new_color):
         self.text = self.font.render(self.content, True, new_color)
+
+    def set_content(self, new_content):
+        self.content = new_content
+        self.text = self.font.render(self.content, True, self.text_color)
 
     def draw(self, screen):
         # Check whether or not to draw Rectangle Background

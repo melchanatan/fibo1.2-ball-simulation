@@ -42,9 +42,9 @@ FONT_SMALL = pg.font.Font(font_path / "Prompt-Regular.ttf", 23)
 FONT_SUB = pg.font.Font(font_path / "MPLUSRounded1c-Bold.ttf", 20)
 FONT_WARNING = pg.font.Font(font_path / "Prompt-Regular.ttf", 20)
 
-ROBOT_CONSTANT = 10
-MOTOR_CONSTANT_1 = 1
-MOTOR_CONSTANT_2 = 2
+ROBOT_CONSTANT = 2359 / 1563.9991
+MOTOR_CONSTANT_1 = 170.88
+MOTOR_CONSTANT_2 = 185.45
 GRAVITY = 9.81
 INITIAL_THETA = 60
 
@@ -88,7 +88,9 @@ def progess_page():
         calculator.rpm_to_volt(robot_rpm, MOTOR_CONSTANT_2)
     ]
 
-    resulting_pwm = round(robot_volt_uses[0], 1)
+    resulting_pwm_1 = round(robot_volt_uses[0], 2)
+    resulting_pwm_2 = round(robot_volt_uses[1], 2)
+
     resulting_rpm = round(robot_rpm)
 
     button_back_2 = ButtonText(grid_x * 1, grid_y * 13 + 30, "Back", FONT_BOLD, PRIMARY_COLOR_300,
@@ -102,7 +104,7 @@ def progess_page():
     rec_2_2 = Rectangle(grid_x * 10 - 100, grid_y * 8 + 10, grid_x * 5, grid_y * 3 + 30, "white", border_radius=30)
 
     text_pwm = Text(grid_x * 10 - 45, grid_y * 4 + 25, "PWM", FONT_BOLD, PRIMARY_COLOR_100)
-    text_pwm_result = Text(grid_x * 10 - 45, grid_y * 4 + 90, f"{resulting_pwm} V", FONT_BOLD, PRIMARY_COLOR_100)
+    text_pwm_result = Text(grid_x * 10 - 45, grid_y * 4 + 90, f"{resulting_pwm_1} V, {resulting_pwm_2} V", FONT_BOLD, PRIMARY_COLOR_100)
     rec_2_4 = Rectangle(grid_x * 10 - 75, grid_y * 4 + 70, grid_x * 4 + 30, grid_y * 2, PRIMARY_COLOR_100,
                         border_radius=30)
     rec_2_5 = Rectangle(grid_x * 10 - 75 + 4, grid_y * 4 + 70 + 4, grid_x * 4 + 30 - 8, grid_y * 2 - 8, "white",
@@ -143,7 +145,7 @@ def progess_page():
     icon_button_replay = ButtonIcon(screen_width/2-20, grid_y * 13 + 30, graphic_path / "replay.png", .6, alternative_path=graphic_path / "replay_alt.png")
 
     rec_3_1 = Rectangle(grid_x * 2, grid_y * 3 + 20, grid_x * 12, grid_x * 5, "white", border_radius=30)
-    text_pwm_simulate = Text(grid_x * 2 + 45, grid_y * 3 + 40, f"PWM = {resulting_pwm} V", FONT_LIGHT_SMALL,
+    text_pwm_simulate = Text(grid_x * 2 + 45, grid_y * 3 + 40, f"PWM = {resulting_pwm_1} V, {resulting_pwm_2} V", FONT_LIGHT_SMALL,
                              PRIMARY_COLOR_100)
     text_rpm_simulate = Text(grid_x * 2 + 45, grid_y * 3 + 40 + 25, f"RPM = {resulting_rpm} RPM", FONT_LIGHT_SMALL,
                              PRIMARY_COLOR_100)

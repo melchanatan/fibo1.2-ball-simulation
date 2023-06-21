@@ -15,7 +15,7 @@ class Calculator:
         return (1000 * initial_velocity) / math.pi
 
     def rpm_to_volt(self, rpm, motor_constant):
-        return rpm * 12 / 1666.67
+        return 0.0072 * (rpm + motor_constant)
 
     def calculate_robot_pos(self, target_pos):
         return 40 + (target_pos[0]/10) - 10, 0
